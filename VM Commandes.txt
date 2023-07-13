@@ -12,3 +12,11 @@ sudo apt-get install php-cli php-common php-mbstring php-gd php-intl php-xml php
 cd /var/www/html
 wget https://releases.wikimedia.org/mediawiki/1.40/mediawiki-1.40.0.tar.gz
 tar xvzf mediawiki-1.40.0.tar.gz
+
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install certbot python3-certbot-nginx
+sudo certbot --nginx -d groupe3.dev-cyber.wilders.dev
