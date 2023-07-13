@@ -8,3 +8,7 @@ sudo apt-get install mysql-server
 11:07
 sudo mysql_secure_installation
 sudo apt-get install php
+sudo apt-get install php-cli php-common php-mbstring php-gd php-intl php-xml php-mysql php-json php-apcu php-zip
+cd /var/www/html
+wget https://releases.wikimedia.org/mediawiki/1.40/mediawiki-1.40.0.tar.gz
+tar xvzf mediawiki-1.40.0.tar.gz
