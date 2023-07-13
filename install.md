@@ -1,4 +1,4 @@
-# 13/07/2023 
+## 13/07/2023 
 Creation of usernames for each user: amin, maikl, michel using the command "adduser amin", etc.
 
 Updating the repository with the commands "apt update" and "apt upgrade".
