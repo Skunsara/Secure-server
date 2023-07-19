@@ -27,13 +27,16 @@ sudo a2dissite 000-default.conf
 Enable the wiki.conf configuration:
 sudo a2ensite wiki.conf
 
+to see if there any error on the apache service
+sudo service apache2 status
 
- "Invalid command 'SSLEngine',error on Apache
+"Invalid command 'SSLEngine',error on Apache
 
- To resolve this issue, you need to enable the SSL module in Apache. You can do this by running the following command:
+To resolve this issue, you need to enable the SSL module in Apache. You can do this by running the following command:
 
 sudo a2enmod ssl
 
 After enabling the SSL module, restart the Apache service:
+
 sudo service apache2 restart
 
