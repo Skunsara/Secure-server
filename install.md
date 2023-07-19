@@ -16,3 +16,24 @@ CREATION MYSQL TABLE with "CREATE DATABASE wikidb"
 CREATION USER MYSQL with "CREATE USER 'new_mysql_user'@'localhost' IDENTIFIED BY 'PASSWORD';"
 
 Gave permission to this user to edit the file with "GRANT ALL ON wikidb.* TO 'new_mysql_user'@'localhost';"
+
+Navigate to the Apache configuration directory. The exact path may vary depending on your server's configuration, but it is typically located at /etc/apache2/sites-available/.
+
+sudo nano /etc/apache2/sites-available/wiki.conf (you can see wiki.conf in github)
+
+Disable the default Apache site:
+sudo a2dissite 000-default.conf 
+
+Enable the wiki.conf configuration:
+sudo a2ensite wiki.conf
+
+
+ "Invalid command 'SSLEngine',error on Apache
+
+ To resolve this issue, you need to enable the SSL module in Apache. You can do this by running the following command:
+
+sudo a2enmod ssl
+
+After enabling the SSL module, restart the Apache service:
+sudo service apache2 restart
+
