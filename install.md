@@ -27,6 +27,9 @@ sudo a2dissite 000-default.conf
 Enable the wiki.conf configuration:
 sudo a2ensite wiki.conf
 
+restart the Apache service:
+sudo service apache2 restart
+
 to see if there any error on the apache service
 sudo service apache2 status
 
