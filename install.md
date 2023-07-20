@@ -43,3 +43,25 @@ After enabling the SSL module, restart the Apache service:
 
 sudo service apache2 restart
 
+Check if UFW (Uncomplicated Firewall) is installed on your system by running the following command:
+
+sudo ufw status
+you can install it by running:
+
+sudo apt-get install ufw
+
+Disable all incoming connections by default:
+sudo ufw default deny incoming
+
+Allow SSH connections:
+sudo ufw allow ssh
+
+Allow HTTPS connections:
+sudo ufw allow https
+
+Enable the firewall to start protecting your VM:
+sudo ufw enable
+
+Confirm the firewall status to verify that only SSH and HTTPS are allowed:
+sudo ufw status
+
