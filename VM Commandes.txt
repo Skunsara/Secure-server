@@ -29,3 +29,13 @@ sudo a2enmod ssl
 sudo service apache2 restart
 	
 scp LocalSettings.php root@groupe3.dev-cyber.wilders.dev:/var/www/mediawiki-1.40.0
+
+sudo apt-get install ufw
+
+sudo ufw default deny incoming
+
+sudo ufw allow ssh
+
+sudo ufw allow https
+
+sudo ufw enable
