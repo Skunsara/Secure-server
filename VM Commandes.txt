@@ -20,3 +20,12 @@ sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update
 sudo apt-get install certbot python3-certbot-nginx
 sudo certbot --nginx -d groupe3.dev-cyber.wilders.dev
+
+sudo nano /etc/apache2/sites-available/wiki.conf (conf file in github)
+
+sudo a2dissite 000-default.conf
+sudo a2ensite wiki.conf
+sudo a2enmod ssl
+sudo service apache2 restart
+	
+scp LocalSettings.php root@groupe3.dev-cyber.wilders.dev:/var/www/mediawiki-1.40.0
