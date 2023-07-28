@@ -65,3 +65,29 @@ sudo ufw enable
 Confirm the firewall status to verify that only SSH and HTTPS are allowed:
 sudo ufw status
 
+Installation Fail2ban with the command :
+sudo apt install fail2ban & sudo apt upgrade
+
+Creation a local configuration file to override the defaults and make any customizations. Create the local configuration file:
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+-sudo nano /etc/fail2ban/jail.local
+[all_ports]
+enabled = true
+port = all
+filter = all_ports
+logpath = /var/log/syslog
+maxretry = 5
+bantime = 1d
+[sshd]
+mode   = aggressive
+port    = ssh
+logpath = %(sshd_log)s
+backend = %(sshd_backend)s
+bantime = 1d
+maxretry = 3
+
+Enable Fail2ban
+sudo systemctl enable fail2ban
+
+Start Fail2ban:
+sudo systemctl start fail2ban
