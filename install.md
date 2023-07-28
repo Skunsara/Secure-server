@@ -1,105 +1,129 @@
-## 13/07/2023 - 28/07/2023
-# User Creation:
-#Creation of usernames for each user: amin, maikl, michel using the command 
+## Description and Table of Contents
 
+In this GitHub repository, you will find the code and instructions for setting up a web server with Apache, MySQL, PHP, and additional security configurations. The steps are structured and organized below.
+
+### Table of Contents
+1. [User Creation](#user-creation)
+2. [System Updates and Package Installations](#system-updates-and-package-installations)
+3. [MySQL Configuration](#mysql-configuration)
+4. [Apache Configuration](#apache-configuration)
+5. [Firewall (UFW) Configuration](#firewall-ufw-configuration)
+6. [Fail2ban Installation and Configuration](#fail2ban-installation-and-configuration)
+7. [Additional Network Configuration](#additional-network-configuration)
+8. [Change SSH Port](#change-ssh-port)
+
+## User Creation
+### Creation of Usernames
+- Create usernames for each user using the following commands:
+
+```bash
 adduser amin
 adduser maikl
-# System Updates and Package Installations:
-#Updating the repository with the commands 
+```
 
-apt update & apt upgrade
+## System Updates and Package Installations
+### Updating the System
+- Update the repository with the commands:
 
-#Installing Apache with the command 
+```bash
+apt update
+apt upgrade
+```
 
+### Installing Apache
+- Install Apache with the command:
+
+```bash
 apt-get install apache2
-# MySQL Configuration:
-#Installing MySQL with the command 
+```
 
+## MySQL Configuration
+- Install MySQL with the command:
+
+```bash
 apt-get install mysql-server
+```
 
-#Setting up the encrypted password for SQL.
+- Set up an encrypted password for MySQL.
 
-#Installing PHP with the command 
+- Install PHP with the command:
 
+```bash
 apt-get install php
+```
 
-#CREATION MYSQL TABLE with 
+- Create a MySQL database and user:
 
-CREATE DATABASE wikidb
-
-#CREATION USER MYSQL with 
-
+```sql
+CREATE DATABASE wikidb;
 CREATE USER 'new_mysql_user'@'localhost' IDENTIFIED BY 'PASSWORD';
-
-#Gave permission to this user to edit the file with 
-
 GRANT ALL ON wikidb.* TO 'new_mysql_user'@'localhost';
-# Apache Configuration:
-#Navigate to the Apache configuration directory. The exact path may vary depending on your server's configuration, but it is typically located at /etc/apache2/sites-available/.
+```
 
-sudo nano /etc/apache2/sites-available/wiki.conf (you can see wiki.conf in github)
+## Apache Configuration
+- Navigate to the Apache configuration directory (usually located at /etc/apache2/sites-available/):
 
-#Disable the default Apache site:
+```bash
+sudo nano /etc/apache2/sites-available/wiki.conf
+```
 
-sudo a2dissite 000-default.conf 
+- Disable the default Apache site and enable the wiki.conf configuration:
 
-#Enable the wiki.conf configuration:
-
+```bash
+sudo a2dissite 000-default.conf
 sudo a2ensite wiki.conf
-
-#Restart the Apache service:
-
 sudo service apache2 restart
+```
 
-#To see if there any error on the apache service
+- Enable the SSL module to resolve the "Invalid command 'SSLEngine'" error:
 
-sudo service apache2 status
-
-#"Invalid command 'SSLEngine',error on Apache
-
-#To resolve this issue, you need to enable the SSL module in Apache. You can do this by running the following command:
-
+```bash
 sudo a2enmod ssl
-
-#After enabling the SSL module, restart the Apache service:
-
 sudo service apache2 restart
-# Firewall (UFW) Configuration:
-#Check if UFW (Uncomplicated Firewall) is installed on your system by running the following command:
+```
 
+## Firewall (UFW) Configuration
+- Check if UFW (Uncomplicated Firewall) is installed:
+
+```bash
 sudo ufw status
-#you can install it by running:
+```
 
+- Install UFW if not already installed:
+
+```bash
 sudo apt-get install ufw
+```
 
-#Disable all incoming connections by default:
+- Configure the firewall to allow SSH and HTTPS connections:
 
+```bash
 sudo ufw default deny incoming
-
-#Allow SSH connections:
-
 sudo ufw allow ssh
-
-#Allow HTTPS connections:
-
 sudo ufw allow https
-
-#Enable the firewall to start protecting your VM:
-
 sudo ufw enable
-
-#Confirm the firewall status to verify that only SSH and HTTPS are allowed:
-
 sudo ufw status
-# Fail2ban Installation and Configuration:
-#Installation Fail2ban with the command :
+```
 
-sudo apt install fail2ban & sudo apt upgrade
+## Fail2ban Installation and Configuration
+- Install Fail2ban:
 
-#Creation a local configuration file to override the defaults and make any customizations. Create the local configuration file:
+```bash
+sudo apt install fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```
 
+- Create a local configuration file for Fail2ban:
+
+```bash
 sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
--sudo nano /etc/fail2ban/jail.local
+sudo nano /etc/fail2ban/jail.local
+```
+
+- Add the following custom configuration to the `jail.local` file:
+
+```ini
 [all_ports]
 enabled = true
 port = all
@@ -107,6 +131,7 @@ filter = all_ports
 logpath = /var/log/syslog
 maxretry = 5
 bantime = 1d
+
 [sshd]
 mode   = aggressive
 port    = ssh
@@ -114,53 +139,39 @@ logpath = %(sshd_log)s
 backend = %(sshd_backend)s
 bantime = 1d
 maxretry = 3
+```
 
-#Enable Fail2ban
+## Additional Network Configuration
+- Configure additional network rules using NFT (nftables):
 
-sudo systemctl enable fail2ban
-
-#Start Fail2ban:
-
-sudo systemctl start fail2ban
-
-# Additional Network Configuration:
+```bash
 sudo nft add table inet filter
-sudo nft add chain inet filter input { type filter hook input priority 0 \; }*
-
-#The first rule accepts all traffic that is part of or related to an established connection. This is necessary for reply packets to get back to your system.
-
+sudo nft add chain inet filter input { type filter hook input priority 0 \; }
 sudo nft add rule inet filter input ct state established,related accept
-
-#The second rule accepts all traffic on the loopback interface. This is necessary for many applications to function properly.
-
 sudo nft add rule inet filter input iifname lo accept
-
-#The third rule accepts all ICMP traffic. This protocol is used for many network diagnostics tasks and it's generally a good idea to allow it.
-
 sudo nft add rule inet filter input ip protocol icmp accept
-
-#The fourth rule accepts all ICMPv6 traffic (the equivalent of ICMP for IPv6).
-
 sudo nft add rule inet filter input ip6 nexthdr icmpv6 accept
-
-#The fifth rule accepts all incoming traffic to HTTP (port 80), HTTPS (port 443) and SSH (port 22).
-
 sudo nft add rule inet filter input tcp dport {http, https, ssh} accept
-
-#The final rule drops all other traffic and counts the number of packets dropped.
-
 sudo nft add rule inet filter input counter drop
+```
 
-# Change port to 2222
-#Open the SSH configuration file:
+## Change SSH Port
+- Open the SSH configuration file:
 
+```bash
 sudo nano /etc/ssh/sshd_config
+```
 
-#Change the port 
+- Change the port number to 2222:
 
+```
 Port 2222
+```
 
-#Restart the service
+- Restart the SSH service:
 
+```bash
 sudo service ssh restart
+```
 
+Please note that the above instructions are meant to be inserted into a README file on GitHub to provide a step-by-step guide for setting up the web server. Ensure that you have the necessary permissions and knowledge to perform these actions on your system before proceeding.
