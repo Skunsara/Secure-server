@@ -1,67 +1,177 @@
-## 13/07/2023 
-Creation of usernames for each user: amin, maikl, michel using the command "adduser amin", etc.
+## Description and Table of Contents
 
-Updating the repository with the commands "apt update" and "apt upgrade".
+In this GitHub repository, you will find the code and instructions for setting up a web server with Apache, MySQL, PHP, and additional security configurations. The steps are structured and organized below.
 
-Installing Apache with the command "apt-get install apache2".
+### Table of Contents
+1. [User Creation](#user-creation)
+2. [System Updates and Package Installations](#system-updates-and-package-installations)
+3. [MySQL Configuration](#mysql-configuration)
+4. [Apache Configuration](#apache-configuration)
+5. [Firewall (UFW) Configuration](#firewall-ufw-configuration)
+6. [Fail2ban Installation and Configuration](#fail2ban-installation-and-configuration)
+7. [Additional Network Configuration](#additional-network-configuration)
+8. [Change SSH Port](#change-ssh-port)
 
-Installing MySQL with the command "apt-get install mysql-server".
+## User Creation
+### Creation of Usernames
+- Create usernames for each user using the following commands:
 
-Setting up the encrypted password for SQL.
+```bash
+adduser amin
+adduser maikl
+```
 
-Installing PHP with the command "apt-get install php".
+## System Updates and Package Installations
+### Updating the System
+- Update the repository with the commands:
 
-CREATION MYSQL TABLE with "CREATE DATABASE wikidb"
+```bash
+apt update
+apt upgrade
+```
 
-CREATION USER MYSQL with "CREATE USER 'new_mysql_user'@'localhost' IDENTIFIED BY 'PASSWORD';"
+### Installing Apache
+- Install Apache with the command:
 
-Gave permission to this user to edit the file with "GRANT ALL ON wikidb.* TO 'new_mysql_user'@'localhost';"
+```bash
+apt-get install apache2
+```
 
-Navigate to the Apache configuration directory. The exact path may vary depending on your server's configuration, but it is typically located at /etc/apache2/sites-available/.
+## MySQL Configuration
+- Install MySQL with the command:
 
-sudo nano /etc/apache2/sites-available/wiki.conf (you can see wiki.conf in github)
+```bash
+apt-get install mysql-server
+```
 
-Disable the default Apache site:
-sudo a2dissite 000-default.conf 
+- Set up an encrypted password for MySQL.
 
-Enable the wiki.conf configuration:
+- Install PHP with the command:
+
+```bash
+apt-get install php
+```
+
+- Create a MySQL database and user:
+
+```sql
+CREATE DATABASE wikidb;
+CREATE USER 'new_mysql_user'@'localhost' IDENTIFIED BY 'PASSWORD';
+GRANT ALL ON wikidb.* TO 'new_mysql_user'@'localhost';
+```
+
+## Apache Configuration
+- Navigate to the Apache configuration directory (usually located at /etc/apache2/sites-available/):
+
+```bash
+sudo nano /etc/apache2/sites-available/wiki.conf
+```
+
+- Disable the default Apache site and enable the wiki.conf configuration:
+
+```bash
+sudo a2dissite 000-default.conf
 sudo a2ensite wiki.conf
-
-restart the Apache service:
 sudo service apache2 restart
+```
 
-to see if there any error on the apache service
-sudo service apache2 status
+- Enable the SSL module to resolve the "Invalid command 'SSLEngine'" error:
 
-"Invalid command 'SSLEngine',error on Apache
-
-To resolve this issue, you need to enable the SSL module in Apache. You can do this by running the following command:
-
+```bash
 sudo a2enmod ssl
-
-After enabling the SSL module, restart the Apache service:
-
 sudo service apache2 restart
+```
 
-Check if UFW (Uncomplicated Firewall) is installed on your system by running the following command:
+## Firewall (UFW) Configuration
+- Check if UFW (Uncomplicated Firewall) is installed:
 
+```bash
 sudo ufw status
-you can install it by running:
+```
 
+- Install UFW if not already installed:
+
+```bash
 sudo apt-get install ufw
+```
 
-Disable all incoming connections by default:
+- Configure the firewall to allow SSH and HTTPS connections:
+
+```bash
 sudo ufw default deny incoming
-
-Allow SSH connections:
 sudo ufw allow ssh
-
-Allow HTTPS connections:
 sudo ufw allow https
-
-Enable the firewall to start protecting your VM:
 sudo ufw enable
-
-Confirm the firewall status to verify that only SSH and HTTPS are allowed:
 sudo ufw status
+```
+
+## Fail2ban Installation and Configuration
+- Install Fail2ban:
+
+```bash
+sudo apt install fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```
+
+- Create a local configuration file for Fail2ban:
+
+```bash
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+sudo nano /etc/fail2ban/jail.local
+```
+
+- Add the following custom configuration to the `jail.local` file:
+
+```ini
+[all_ports]
+enabled = true
+port = all
+filter = all_ports
+logpath = /var/log/syslog
+maxretry = 5
+bantime = 1d
+
+[sshd]
+mode   = aggressive
+port    = ssh
+logpath = %(sshd_log)s
+backend = %(sshd_backend)s
+bantime = 1d
+maxretry = 3
+```
+
+## Additional Network Configuration
+- Configure additional network rules using NFT (nftables):
+
+```bash
+sudo nft add table inet filter
+sudo nft add chain inet filter input { type filter hook input priority 0 \; }
+sudo nft add rule inet filter input ct state established,related accept
+sudo nft add rule inet filter input iifname lo accept
+sudo nft add rule inet filter input ip protocol icmp accept
+sudo nft add rule inet filter input ip6 nexthdr icmpv6 accept
+sudo nft add rule inet filter input tcp dport {http, https, ssh} accept
+sudo nft add rule inet filter input counter drop
+```
+
+## Change SSH Port
+- Open the SSH configuration file:
+
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+
+- Change the port number to 2222:
+
+```
+Port 2222
+```
+
+- Restart the SSH service:
+
+```bash
+sudo service ssh restart
+```
+
 
