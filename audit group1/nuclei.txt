@@ -1,3 +1,5 @@
+nuclei -l target_urls.txt -t nuclei-templates/
+
 [tls-version] [ssl] [info] groupe1.dev-cyber.wilders.dev:443 [tls12]
 [tls-version] [ssl] [info] groupe1.dev-cyber.wilders.dev:443 [tls13]
 [ssl-issuer] [ssl] [info] groupe1.dev-cyber.wilders.dev:443 [Let's Encrypt]
