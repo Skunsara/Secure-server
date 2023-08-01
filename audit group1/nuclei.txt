@@ -1,0 +1,7 @@
+[tls-version] [ssl] [info] groupe1.dev-cyber.wilders.dev:443 [tls12]
+[tls-version] [ssl] [info] groupe1.dev-cyber.wilders.dev:443 [tls13]
+[ssl-issuer] [ssl] [info] groupe1.dev-cyber.wilders.dev:443 [Let's Encrypt]
+[ssl-dns-names] [ssl] [info] groupe1.dev-cyber.wilders.dev:443 [groupe1.dev-cyber.wilders.dev]
+[robots-txt] [http] [info] https://groupe1.dev-cyber.wilders.dev/robots.txt
+[dns-waf-detect:cloudflare] [dns] [info] groupe1.dev-cyber.wilders.dev
+[waf-detect:apachegeneric] [http] [info] http://groupe1.dev-cyber.wilders.dev/
