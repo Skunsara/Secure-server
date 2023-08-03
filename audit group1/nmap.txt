@@ -1,32 +1,18 @@
-nmap -sV -A --script vuln 167.71.39.137
+~# nmap -sV -A --script vuln 167.71.39.137
 
-Starting Nmap 7.80 ( https://nmap.org ) at 2023-08-01 15:36 UTC
+Starting Nmap 7.80 ( https://nmap.org ) at 2023-08-03 09:57 CEST
 Nmap scan report for 167.71.39.137
-Host is up (0.0014s latency).
-Not shown: 997 filtered ports
-PORT    STATE  SERVICE VERSION
-22/tcp  closed ssh
-80/tcp  open   http    Apache httpd 2.4.52
+Host is up (0.018s latency).
+Not shown: 998 filtered ports
+PORT    STATE SERVICE  VERSION
+80/tcp  open  http     Apache httpd 2.4.52
 |_clamav-exec: ERROR: Script execution failed (use -d to debug)
-|_http-aspnet-debug: ERROR: Script execution failed (use -d to debug)
 |_http-csrf: Couldn't find any CSRF vulnerabilities.
 |_http-dombased-xss: Couldn't find any DOM based XSS.
 | http-enum:
-|_  /robots.txt: Robots file
-| http-phpmyadmin-dir-traversal:
-|   VULNERABLE:
-|   phpMyAdmin grab_globals.lib.php subform Parameter Traversal Local File Inclusion
-|     State: LIKELY VULNERABLE
-|     IDs:  CVE:CVE-2005-3299
-|       PHP file inclusion vulnerability in grab_globals.lib.php in phpMyAdmin 2.6.4 and 2.6.4-pl1 allows remote attackers to include local files via the $__redirect parameter, possibly involving the subform array.
-|
-|     Disclosure date: 2005-10-nil
-|     Extra information:
-|       ../../../../../etc/passwd not found.
-|
-|     References:
-|       http://www.exploit-db.com/exploits/1244/
-|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2005-3299
+|   /robots.txt: Robots file
+|_  /templates/: Potentially interesting directory w/ listing on 'apache/2.4.52 (ubuntu)'
+|_http-passwd: ERROR: Script execution failed (use -d to debug)
 |_http-server-header: Apache/2.4.52 (Ubuntu)
 |_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
 | vulners:
@@ -36,7 +22,7 @@ PORT    STATE  SERVICE VERSION
 |       CVE-2022-23943  7.5     https://vulners.com/cve/CVE-2022-23943
 |       CVE-2022-22720  7.5     https://vulners.com/cve/CVE-2022-22720
 |       CNVD-2022-73123 7.5     https://vulners.com/cnvd/CNVD-2022-73123
-|       5C1BB960-90C1-5EBF-9BEF-F58BFFDFEED9    7.5     https://vulners.com/githubexploit/5C1BB960-90C1-5EBF-9BEF-F58BFFDFEED9  *EXPLOIT*
+|       5C1BB960-90C1-5EBF-9BEF-F58BFFDFEED9    7.5     https://vulners.com/githubexploit/5C1BB960-90C1-5EBF-9BEF-F58BFFDFEED9      *EXPLOIT*
 |       CVE-2022-28615  6.4     https://vulners.com/cve/CVE-2022-28615
 |       CVE-2021-44224  6.4     https://vulners.com/cve/CVE-2021-44224
 |       CVE-2022-22721  5.8     https://vulners.com/cve/CVE-2022-22721
@@ -52,44 +38,60 @@ PORT    STATE  SERVICE VERSION
 |       CNVD-2022-73122 5.0     https://vulners.com/cnvd/CNVD-2022-73122
 |       CNVD-2022-53584 5.0     https://vulners.com/cnvd/CNVD-2022-53584
 |_      CNVD-2022-53582 5.0     https://vulners.com/cnvd/CNVD-2022-53582
-443/tcp open   ssl/ssl Apache httpd (SSL-only mode)
+443/tcp open  ssl/http Apache httpd 2.4.52 ((Ubuntu))
 |_clamav-exec: ERROR: Script execution failed (use -d to debug)
-|_http-aspnet-debug: ERROR: Script execution failed (use -d to debug)
 |_http-csrf: Couldn't find any CSRF vulnerabilities.
 |_http-dombased-xss: Couldn't find any DOM based XSS.
 | http-enum:
-|_  /robots.txt: Robots file
-| http-phpmyadmin-dir-traversal:
-|   VULNERABLE:
-|   phpMyAdmin grab_globals.lib.php subform Parameter Traversal Local File Inclusion
-|     State: LIKELY VULNERABLE
-|     IDs:  CVE:CVE-2005-3299
-|       PHP file inclusion vulnerability in grab_globals.lib.php in phpMyAdmin 2.6.4 and 2.6.4-pl1 allows remote attackers to include local files via the $__redirect parameter, possibly involving the subform array.
-|
-|     Disclosure date: 2005-10-nil
-|     Extra information:
-|       ../../../../../etc/passwd not found.
-|
-|     References:
-|       http://www.exploit-db.com/exploits/1244/
-|_      https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2005-3299
+|   /robots.txt: Robots file
+|_  /templates/: Potentially interesting directory w/ listing on 'apache/2.4.52 (ubuntu)'
+|_http-passwd: ERROR: Script execution failed (use -d to debug)
 |_http-server-header: Apache/2.4.52 (Ubuntu)
 |_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
 |_sslv2-drown:
-Aggressive OS guesses: Linux 2.6.32 - 3.13 (95%), Linux 2.6.22 - 2.6.36 (93%), Linux 3.10 - 4.11 (93%), Linux 2.6.39 (93%), Linux 2.6.32 (92%), Linux 3.2 - 4.9 (92%), Linux 3.10 (92%), Linux 2.6.32 - 3.10 (92%), Linux 2.6.18 (91%), Linux 3.16 - 4.6 (91%)
+| vulners:
+|   cpe:/a:apache:http_server:2.4.52:
+|       CVE-2023-25690  7.5     https://vulners.com/cve/CVE-2023-25690
+|       CVE-2022-31813  7.5     https://vulners.com/cve/CVE-2022-31813
+|       CVE-2022-23943  7.5     https://vulners.com/cve/CVE-2022-23943
+|       CVE-2022-22720  7.5     https://vulners.com/cve/CVE-2022-22720
+|       CNVD-2022-73123 7.5     https://vulners.com/cnvd/CNVD-2022-73123
+|       5C1BB960-90C1-5EBF-9BEF-F58BFFDFEED9    7.5     https://vulners.com/githubexploit/5C1BB960-90C1-5EBF-9BEF-F58BFFDFEED9      *EXPLOIT*
+|       CVE-2022-28615  6.4     https://vulners.com/cve/CVE-2022-28615
+|       CVE-2021-44224  6.4     https://vulners.com/cve/CVE-2021-44224
+|       CVE-2022-22721  5.8     https://vulners.com/cve/CVE-2022-22721
+|       CVE-2022-36760  5.1     https://vulners.com/cve/CVE-2022-36760
+|       CVE-2023-27522  5.0     https://vulners.com/cve/CVE-2023-27522
+|       CVE-2022-37436  5.0     https://vulners.com/cve/CVE-2022-37436
+|       CVE-2022-30556  5.0     https://vulners.com/cve/CVE-2022-30556
+|       CVE-2022-29404  5.0     https://vulners.com/cve/CVE-2022-29404
+|       CVE-2022-28614  5.0     https://vulners.com/cve/CVE-2022-28614
+|       CVE-2022-26377  5.0     https://vulners.com/cve/CVE-2022-26377
+|       CVE-2022-22719  5.0     https://vulners.com/cve/CVE-2022-22719
+|       CVE-2006-20001  5.0     https://vulners.com/cve/CVE-2006-20001
+|       CNVD-2022-73122 5.0     https://vulners.com/cnvd/CNVD-2022-73122
+|       CNVD-2022-53584 5.0     https://vulners.com/cnvd/CNVD-2022-53584
+|_      CNVD-2022-53582 5.0     https://vulners.com/cnvd/CNVD-2022-53582
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Aggressive OS guesses: Linux 2.6.32 (94%), Linux 3.10 - 4.11 (94%), Linux 3.2 - 4.9 (94%), Linux 3.4 - 3.10 (94%), Linux 2.6.32 - 3.10 (93%), Linux 2.6.32 - 3.13 (93%), Synology DiskStation Manager 5.2-5644 (92%), Linux 3.10 (92%), Linux 2.6.22 - 2.6.36 (91%), Linux 2.6.39 (91%)
 No exact OS matches for host (test conditions non-ideal).
-Network Distance: 7 hops
+Network Distance: 18 hops
 Service Info: Host: groupe1.dev-cyber.wilders.dev
 
-TRACEROUTE (using port 22/tcp)
-HOP RTT     ADDRESS
+TRACEROUTE (using port 80/tcp)
+HOP RTT      ADDRESS
 1   ...
-2   0.82 ms 10.68.132.5
-3   1.03 ms 138.197.249.56
-4   1.03 ms 138.197.249.43
-5   ...
-6   2.21 ms 10.68.66.224
-7   4.76 ms 167.71.39.137
+2   4.22 ms  bbox.lan (192.168.1.254)
+3   ... 5
+6   12.33 ms be11.cbr01-cro.net.bbox.fr (212.194.171.2)
+7   10.04 ms 62.34.2.251
+8   ...
+9   12.39 ms prs-b3-link.ip.twelve99.net (62.115.149.78)
+10  10.06 ms prs-bb1-link.ip.twelve99.net (62.115.118.58)
+11  17.31 ms ffm-bb2-link.ip.twelve99.net (62.115.122.139)
+12  17.33 ms ffm-b5-link.ip.twelve99.net (62.115.114.89)
+13  ... 17
+18  18.47 ms 167.71.39.137
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 189.85 seconds
+Nmap done: 1 IP address (1 host up) scanned in 296.33 seconds
