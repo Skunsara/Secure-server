@@ -59,16 +59,6 @@ GRANT ALL ON wikidb.* TO 'new_mysql_user'@'localhost';
 ```
 
 ## Apache Configuration
-- Installation de TLS Cerbot
-```bash
-sudo apt-get update
-sudo apt-get install software-properties-common
-sudo add-apt-repository universe
-sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
-sudo apt-get install certbot python3-certbot-apache
-sudo certbot --apache -d groupe3.dev-cyber.wilders.dev
-```
 
 - Navigate to the Apache configuration directory (usually located at /etc/apache2/sites-available/):
 
@@ -89,6 +79,16 @@ sudo service apache2 restart
 ```bash
 sudo a2enmod ssl
 sudo service apache2 restart
+```
+- Installation de TLS Cerbot
+```bash
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install certbot python3-certbot-apache
+sudo certbot --apache -d groupe3.dev-cyber.wilders.dev
 ```
 
 ## Firewall (UFW) Configuration
