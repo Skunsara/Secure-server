@@ -1,5 +1,18 @@
 # Project Name: WIKI
 
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Group Members](#group-members)
+3. [Roles](#roles)
+4. [Challenges](#challenges)
+5. [Solutions](#solutions)
+6. [Tools Used](#tools-used)
+7. [Tests](#tests)
+8. [Results](#results)
+9. [Possible Improvements](#possible-improvements)
+10. [Conclusion](#conclusion)
+11. [Acknowledgments](#acknowledgments)
+
 ## Introduction
 WIKI is a project aimed at creating a secure wiki pentesting website hosted on a virtual machine (VM). The main objective of this project is to build a wiki platform that provides comprehensive information on various penetration testing techniques and tools while ensuring the security of the VM infrastructure.
 

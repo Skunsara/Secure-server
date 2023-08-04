@@ -39,22 +39,17 @@ cd /var/www/html
 wget https://releases.wikimedia.org/mediawiki/1.40/mediawiki-1.40.0.tar.gz
 tar xvzf mediawiki-1.40.0.tar.gz
 ```
-
-## MySQL Configuration
 - Install MySQL with the command:
 
 ```bash
 apt-get install mysql-server
 ```
-
-- Set up an encrypted password for MySQL.
-
 - Install PHP with the command:
 
 ```bash
 apt-get install php
 ```
-
+## MySQL Configuration
 - Create a MySQL database and user:
 
 ```sql
