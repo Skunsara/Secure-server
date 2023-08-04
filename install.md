@@ -36,22 +36,17 @@ apt upgrade
 ```bash
 apt-get install apache2
 ```
-
-## MySQL Configuration
 - Install MySQL with the command:
 
 ```bash
 apt-get install mysql-server
 ```
-
-- Set up an encrypted password for MySQL.
-
 - Install PHP with the command:
 
 ```bash
 apt-get install php
 ```
-
+## MySQL Configuration
 - Create a MySQL database and user:
 
 ```sql
